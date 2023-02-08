@@ -1,15 +1,15 @@
-import { useState } from 'react'
-import { Routes } from 'react-router-dom'
+import { Route, Routes } from 'react-router-dom'
 
-
-import './App.css'
+import Memotest from './screens/Memotest'
+import Pokemon from './screens/Pokemon'
+import WordsPerMinute from './screens/WordsPerMinute'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <Routes>
-      
+      <Route path='/memotest' element={<Memotest />} />
+      <Route path='/pokemon' element={<Pokemon />} />
+      <Route path='/wpm' element={<WordsPerMinute />} />
     </Routes>
   )
 }
