@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const IMAGES = [
   "https://icongr.am/devicon/angularjs-original.svg?size=128&color=currentColor",
@@ -12,12 +12,22 @@ const IMAGES = [
   "https://icongr.am/devicon/postgresql-original.svg?size=128&color=currentColor",
   "https://icongr.am/devicon/mongodb-original-wordmark.svg?size=128&color=currentColor",
 ]
-  .flatMap((image) => [image, image])
+  .flatMap((image) => [`a|${image}`, `b|${image}`])
   .sort(() => Math.random() - 0.5);
 
 export default function Memotest() {
   const [guessed, setGuessed] = useState<string[]>([]);
-  const [selected, getSelected] = useState<string[]>([]);
+  const [selected, setSelected] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (selected.length === 2) {
+      if (selected[0].split("|")[1] === selected[1].split("|")[1]) {
+        setGuessed((guessed) => guessed.concat(selected));
+      }
+
+      setTimeout(() => setSelected([]), 1000);
+    }
+  }, [selected]);
 
   return (
     <ul
@@ -27,30 +37,34 @@ export default function Memotest() {
         gap: 24,
       }}
     >
-      {IMAGES.map((image) => (
-        <li
-          key={image}
-          style={{
-            cursor: "pointer",
-            padding: 12,
-            border: "1px solid #666",
-            borderRadius: 12,
-          }}
-        >
-          {selected.includes(image) || guessed.includes(image) ? (
-            <img
-              key={image}
-              alt="icon"
-              src="https://icongr.am/clarity/search.svg?size=128&color=currentColor"
-            />
-          ) : (
-            <img
-              alt="icon"
-              src="https://icongr.am/clarity/search.svg?size=128&color=currentColor"
-            />
-          )}
-        </li>
-      ))}
+      {IMAGES.map((image) => {
+        const [, url] = image.split("|");
+
+        return (
+          <li
+            onClick={() =>
+              selected.length < 2 &&
+              setSelected((selected) => selected.concat(image))
+            }
+            key={image}
+            style={{
+              cursor: "pointer",
+              padding: 12,
+              border: "1px solid #666",
+              borderRadius: 12,
+            }}
+          >
+            {selected.includes(image) || guessed.includes(image) ? (
+              <img alt="icon" src={url} />
+            ) : (
+              <img
+                alt="icon"
+                src="https://icongr.am/clarity/search.svg?size=128&color=currentColor"
+              />
+            )}
+          </li>
+        );
+      })}
     </ul>
   );
 }
