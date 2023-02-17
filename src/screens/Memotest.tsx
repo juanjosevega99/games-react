@@ -29,6 +29,13 @@ export default function Memotest() {
     }
   }, [selected]);
 
+  useEffect(() => {
+    if (guessed.length === IMAGES.length) {
+      alert("Your win motherfucker");
+      location.reload();
+    }
+  }, [guessed]);
+
   return (
     <ul
       style={{
