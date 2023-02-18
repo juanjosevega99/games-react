@@ -153,29 +153,52 @@ export default function Pokemon() {
   }
 
   return (
-    <div>
-      <img
-        height={512}
-        width={512}
-        style={{
-          imageRendering: "pixelated",
-          filter: hasWon ? "" : "brightness(0) invert(1)",
-        }}
-        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
-          MATCH + 1
-        }.png`}
-        alt=""
-      />
-      {hasWon ? (
-        <button style={{ width: "100%" }} onClick={() => location.reload()}>
-          Play again
-        </button>
-      ) : (
-        <form onSubmit={handleSubmit}>
-          <input autoFocus type="text" name="pokemon" />
-          <button type="submit">Submit</button>
-        </form>
-      )}
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh",
+      }}
+    >
+      <div style={{ textAlign: "center" }}>
+        <img
+          height={512}
+          width={512}
+          style={{
+            imageRendering: "pixelated",
+            filter: hasWon ? "" : "brightness(0) invert(1)",
+          }}
+          src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${
+            MATCH + 1
+          }.png`}
+          alt=""
+        />
+        {hasWon ? (
+          <button style={{ width: "100%" }} onClick={() => location.reload()}>
+            Play again
+          </button>
+        ) : (
+          <form
+            onSubmit={handleSubmit}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <input
+              autoFocus
+              type="text"
+              name="pokemon"
+              style={{ marginBottom: "10px" }}
+            />
+            <button type="submit" style={{ marginBottom: "20px" }}>
+              Submit
+            </button>
+          </form>
+        )}
+      </div>
     </div>
   );
 }
